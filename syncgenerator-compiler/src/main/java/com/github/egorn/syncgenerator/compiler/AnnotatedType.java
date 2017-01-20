@@ -11,14 +11,16 @@ import java.io.IOException;
 import java.util.*;
 
 class AnnotatedType {
+    private static final String MEMBER_FIELD_NAME = "wrapped";
+
     private final TypeElement element;
     private final String decoratorClassName;
-    private final String originalClassName;
+    private final TypeName classTypeName;
 
     AnnotatedType(TypeElement element) {
         this.element = element;
         this.decoratorClassName = generatedClassName(element, "Sync");
-        this.originalClassName = element.getSimpleName().toString();
+        this.classTypeName = ClassName.get(TypeUtils.packageNameOf(element), element.getSimpleName().toString());
     }
 
     void createDecoratorClass(Types typeUtils, Filer filer) throws IOException {
@@ -26,17 +28,35 @@ class AnnotatedType {
     }
 
     private TypeSpec generateCode(Types typeUtils) {
-        String fieldName = "wrapped";
+        Modifier[] modifiers = getModifiers();
+        return TypeSpec.classBuilder(TypeUtils.simpleNameOf(decoratorClassName))
+                .addModifiers(modifiers)
+                .addField(getMemberField())
+                .addMethods(getMethods(typeUtils))
+                .superclass(getSuperclass())
+                .addSuperinterfaces(getSuperInterfaces())
+                .build();
+    }
 
-        String pkg = TypeUtils.packageNameOf(element);
-        TypeName classTypeName = ClassName.get(pkg, originalClassName);
+    private Modifier[] getModifiers() {
+        Set<Modifier> classModifiers = new HashSet<>(element.getModifiers());
+        classModifiers.remove(Modifier.ABSTRACT);
+        return classModifiers.toArray(new Modifier[classModifiers.size()]);
+    }
 
+    private FieldSpec getMemberField() {
+        return FieldSpec
+                .builder(classTypeName, MEMBER_FIELD_NAME, Modifier.FINAL)
+                .build();
+    }
+
+    private Set<MethodSpec> getMethods(Types typeUtils) {
         Set<MethodSpec> methods = new HashSet<>();
 
         MethodSpec constructor = MethodSpec.constructorBuilder()
                 .addModifiers(Modifier.PUBLIC)
-                .addParameter(classTypeName, fieldName)
-                .addStatement("this.$N = $N", fieldName, fieldName)
+                .addParameter(classTypeName, MEMBER_FIELD_NAME)
+                .addStatement("this.$N = $N", MEMBER_FIELD_NAME, MEMBER_FIELD_NAME)
                 .build();
 
         methods.add(constructor);
@@ -84,28 +104,19 @@ class AnnotatedType {
             }
 
             if (method.getReturnType() instanceof NoType) {
-                spec = spec.addStatement("$N.$N($L)", fieldName, methodName, arguments);
+                spec = spec.addStatement("$N.$N($L)", MEMBER_FIELD_NAME, methodName, arguments);
             } else {
-                spec = spec.addStatement("return $N.$N($L)", fieldName, methodName, arguments)
+                spec = spec.addStatement("return $N.$N($L)", MEMBER_FIELD_NAME, methodName, arguments)
                         .returns(TypeName.get(method.getReturnType()));
             }
 
             methods.add(spec.build());
         }
+        return methods;
+    }
 
-        Set<Modifier> classModifiers = new HashSet<>(element.getModifiers());
-        classModifiers.remove(Modifier.ABSTRACT);
-
-        return TypeSpec.classBuilder(TypeUtils.simpleNameOf(decoratorClassName))
-                .addModifiers(classModifiers.toArray(new Modifier[classModifiers.size()]))
-                .addField(FieldSpec
-                        .builder(classTypeName, fieldName, Modifier.FINAL)
-                        .build())
-                .addMethods(methods)
-                .superclass(element.getKind() == ElementKind.INTERFACE ?
-                        ClassName.OBJECT : TypeName.get(element.asType()))
-                .addSuperinterfaces(getSuperInterfaces())
-                .build();
+    private TypeName getSuperclass() {
+        return element.getKind() == ElementKind.INTERFACE ? ClassName.OBJECT : TypeName.get(element.asType());
     }
 
     private List<TypeName> getSuperInterfaces() {
