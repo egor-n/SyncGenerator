@@ -68,6 +68,17 @@ class SyncExample extends Example {
 }
 ```
 
+## Download
+
+To use SyncGenerator add these dependencies:
+
+```
+compileOnly 'com.github.egor-n:syncgenerator-library:1.0.0'
+apt 'com.github.egor-n:syncgenerator-compiler:1.0.0'
+```
+
+Snapshots of the development version are available in [Sonatype's snapshots repository](https://oss.sonatype.org/content/repositories/snapshots/).
+
 ## TODO
 
 - [ ] add support for inner static classes ([#1](/../../issues/1))

@@ -1,7 +1,8 @@
-group 'com.github.egor-n'
-version '1.0-SNAPSHOT'
+group GROUP
+version VERSION_NAME
 
 apply plugin: 'java'
+apply from: rootProject.file('gradle/gradle-mvn-push.gradle')
 
 sourceCompatibility = 1.5
 
