@@ -1,0 +1,30 @@
+group 'com.example'
+version '1.0-SNAPSHOT'
+
+apply plugin: 'java'
+apply plugin: 'net.ltgt.apt'
+apply plugin: 'idea'
+
+sourceCompatibility = 1.5
+
+buildscript {
+    repositories {
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+    }
+    dependencies {
+        classpath "net.ltgt.gradle:gradle-apt-plugin:0.9"
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compileOnly project(':syncgenerator-library')
+    apt project(':syncgenerator-compiler')
+
+    testCompile group: 'junit', name: 'junit', version: '4.11'
+}

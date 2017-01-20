@@ -1,0 +1,74 @@
+# SyncGenerator
+A Java annotation processor that generates synchronized decorator classes
+based on [this blog post](http://www.yegor256.com/2017/01/17/synchronized-decorators.html).
+
+## Usage
+Applying the `@GenerateSync` to the following interface
+
+```java
+@GenerateSync
+interface Example {
+  void method1(String s);
+  Boolean method2(Integer i1, Integer i2) throws IOException;
+}
+```
+
+will produce the following implementation:
+
+```java
+class SyncExample implements Example {
+  final Example wrapped;
+
+  public SyncExample(Example wrapped) {
+    this.wrapped = wrapped;
+  }
+
+  public synchronized void method1(String s) {
+    wrapped.method1(s);
+  }
+
+  public synchronized Boolean method2(Integer i1, Integer i2) throws IOException {
+    return wrapped.method2(i1, i2);
+  }
+}
+```
+
+`@GenerateSync` can also be applied to non-final and non-static classes. Given the following class
+
+```java
+@GenerateSync
+abstract class Example {
+  abstract String s(Boolean b, Integer i);
+
+  final void f() { }
+
+  Double d() throws IOException {
+        return null;
+    }
+}
+```
+
+it will generate the synchronized version of it:
+
+```java
+class SyncExample extends Example {
+  final Example wrapped;
+
+  public SyncExample(Example wrapped) {
+    this.wrapped = wrapped;
+  }
+
+  synchronized String s(Boolean b, Integer i) {
+    return wrapped.s(b, i);
+  }
+
+  synchronized Double d() throws IOException {
+    return wrapped.d();
+  }
+}
+```
+
+## TODO
+
+- [ ] add support for inner static classes ([#1](/../../issues/1))
+- [ ] figure out how to test this painlessly

@@ -1,0 +1,5 @@
+rootProject.name = 'syncgenerator'
+include ':sample'
+include ':syncgenerator-library'
+include ':syncgenerator-compiler'
+
