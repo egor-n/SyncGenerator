@@ -75,7 +75,7 @@ class SyncExample extends Example {
 
 To use SyncGenerator add these dependencies:
 
-```
+```groovy
 compileOnly 'com.github.egor-n:syncgenerator-library:1.0.0'
 apt 'com.github.egor-n:syncgenerator-compiler:1.0.0'
 ```
