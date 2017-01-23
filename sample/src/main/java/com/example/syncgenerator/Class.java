@@ -14,4 +14,18 @@ abstract class Class {
     Double d() throws IOException {
         return null;
     }
+
+    @GenerateSync
+    abstract static class InnerStaticClass implements Runnable {
+        int i;
+
+        abstract String s(Boolean b, Integer i);
+
+        final void f() {
+        }
+
+        Double d() throws IOException {
+            return null;
+        }
+    }
 }

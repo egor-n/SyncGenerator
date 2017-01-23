@@ -84,5 +84,6 @@ Snapshots of the development version are available in [Sonatype's snapshots repo
 
 ## TODO
 
-- [ ] add support for inner static classes ([#1](/../../issues/1))
+- [ ] add support for inner static classes with the same name
+- [x] add support for inner static classes ([#1](/../../issues/1))
 - [x] figure out how to test this painlessly
