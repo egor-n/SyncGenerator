@@ -76,8 +76,8 @@ class SyncExample extends Example {
 To use SyncGenerator add these dependencies:
 
 ```groovy
-compileOnly 'com.github.egor-n:syncgenerator-library:1.0.0'
-apt 'com.github.egor-n:syncgenerator-compiler:1.0.0'
+compileOnly 'com.github.egor-n:syncgenerator-library:1.0.2'
+apt 'com.github.egor-n:syncgenerator-compiler:1.0.2'
 ```
 
 Snapshots of the development version are available in [Sonatype's snapshots repository](https://oss.sonatype.org/content/repositories/snapshots/).
