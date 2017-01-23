@@ -2,6 +2,7 @@ group GROUP
 version VERSION_NAME
 
 apply plugin: 'java'
+apply plugin: 'jacoco'
 apply from: rootProject.file('gradle/gradle-mvn-push.gradle')
 
 sourceCompatibility = 1.7
@@ -18,3 +19,11 @@ dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.11'
 }
 
+jacocoTestReport {
+    reports {
+        html.enabled = true
+        xml.enabled = true
+    }
+}
+
+check.dependsOn jacocoTestReport
