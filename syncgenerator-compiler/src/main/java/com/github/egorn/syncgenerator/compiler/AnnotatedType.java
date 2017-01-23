@@ -20,7 +20,7 @@ class AnnotatedType {
     AnnotatedType(TypeElement element) {
         this.element = element;
         this.decoratorClassName = generatedClassName(element, "Sync");
-        this.classTypeName = ClassName.get(TypeUtils.packageNameOf(element), element.getSimpleName().toString());
+        this.classTypeName = ClassName.get(element.asType());
     }
 
     void createDecoratorClass(Types typeUtils, Filer filer) throws IOException {
@@ -41,6 +41,7 @@ class AnnotatedType {
     private Modifier[] getModifiers() {
         Set<Modifier> classModifiers = new HashSet<>(element.getModifiers());
         classModifiers.remove(Modifier.ABSTRACT);
+        classModifiers.remove(Modifier.STATIC);
         return classModifiers.toArray(new Modifier[classModifiers.size()]);
     }
 

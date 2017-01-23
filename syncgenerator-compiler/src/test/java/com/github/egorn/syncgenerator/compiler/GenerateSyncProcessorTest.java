@@ -26,12 +26,12 @@ public class GenerateSyncProcessorTest {
     }
 
     @Test
-    public void throwForInnerStaticClass() {
+    public void generateSyncForInnerStaticClass() {
         assert_().about(javaSource())
                 .that(JavaFileObjects.forResource("InnerStaticClass.java"))
                 .processedWith(new GenerateSyncProcessor())
-                .failsToCompile()
-                .withErrorContaining("Inner classes cannot be annotated with @GenerateSync");
+                .compilesWithoutError()
+                .and().generatesSources(JavaFileObjects.forResource("SyncInnerStaticClass.java"));
     }
 
     @Test

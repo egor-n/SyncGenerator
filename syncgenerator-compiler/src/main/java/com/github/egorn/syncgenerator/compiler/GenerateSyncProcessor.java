@@ -31,10 +31,6 @@ public final class GenerateSyncProcessor extends AbstractProcessor {
                     throw new ProcessingException(element, "Only classes and interfaces can be annotated with @%s",
                             GenerateSync.class.getSimpleName());
                 }
-                if (element.getModifiers().contains(Modifier.STATIC)) {
-                    throw new ProcessingException(element, "Inner classes cannot be annotated with @%s",
-                            GenerateSync.class.getSimpleName());
-                }
                 if (element.getModifiers().contains(Modifier.FINAL)) {
                     throw new ProcessingException(element, "Final classes cannot be annotated with @%s",
                             GenerateSync.class.getSimpleName());
