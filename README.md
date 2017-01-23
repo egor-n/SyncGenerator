@@ -1,6 +1,6 @@
 # SyncGenerator
 
-[![Build Status](https://travis-ci.org/egor-n/SyncGenerator.svg?branch=master)](https://travis-ci.org/egor-n/SyncGenerator)
+[![Build Status](https://travis-ci.org/egor-n/SyncGenerator.svg?branch=master)](https://travis-ci.org/egor-n/SyncGenerator) [![codecov](https://codecov.io/gh/egor-n/SyncGenerator/branch/master/graph/badge.svg)](https://codecov.io/gh/egor-n/SyncGenerator)
 
 A Java annotation processor that generates synchronized decorator classes
 based on [this blog post](http://www.yegor256.com/2017/01/17/synchronized-decorators.html).
