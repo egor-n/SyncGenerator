@@ -1,6 +1,3 @@
-group 'com.github.egor-n'
-version '1.0-SNAPSHOT'
-
 apply plugin: 'java'
 
 sourceCompatibility = 1.5
