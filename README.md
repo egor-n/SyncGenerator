@@ -5,6 +5,10 @@
 A Java annotation processor that generates synchronized decorator classes
 based on [this blog post](http://www.yegor256.com/2017/01/17/synchronized-decorators.html).
 
+## Warning
+
+The project is not in any way production material and has been written solely for education purposes.
+
 ## Usage
 Applying the `@GenerateSync` to the following interface
 
