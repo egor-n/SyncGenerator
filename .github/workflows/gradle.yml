@@ -17,3 +17,6 @@ jobs:
       uses: gradle/wrapper-validation-action@v1.0.2
     - name: Build with Gradle
       run: ./gradlew build
+    - name: Codecov
+      uses: codecov/codecov-action@v1.0.5
+
